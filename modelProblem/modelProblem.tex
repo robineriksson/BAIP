@@ -177,52 +177,39 @@ posterior samples from an MCMC to compute the estimator $\dots$
   almost surely with respect to $y \sim \mathbb{Q}_0$.
 \end{itemize}
 
-\section{A todo approach}
-A list:
-\begin{todolist}
-\item[\done] Write code for a super simple example, and output a
-  plot. Consider a point-estimate of $\lambda$, i.e., 1 value, and
-  generate $N_{\text{data}}$ realisations of $z$. How does the
-  ribbon-plot ($\text{{\it mean}} \pm 2 \times \text{{\it sd}}$) look?
-  \begin{itemize}
-  \item See \verb;/CODE/modelExplore.ipynb; for the code
+\section{The Bayesian framework}
+The prior for the unknown r.v. $\lambda$ is
+$\lambda \sim \mathcal{N}(\lambda_0,\sigma_0)$, where we will consider
+a fairly uninformative prior as $\lambda = 0$ and $\sigma = 100$.
 
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{CODE/ribbon.png}
-      \caption{Simple test with $\lambda = -2.5$, one underlying truth
-        (dots), 100 noisy obserations (grey), the mean of observations
-        (red), and $\pm 2$ sd (dashed blue).}
-    \end{figure}
-  \end{itemize}
+The likelihood the observations given a proposed parameter $\lambda$,
+is determined by the distribution of the measurement noise as,
+\begin{equation}
+  \label{eq:likelihood}
+  Z|\lambda \sim \mathcal{N}(G(\lambda), \sigma),
+\end{equation}
+where $G(\lambda)$ is the analytical solution to the model problem,
+$G(\lambda, t_i) = e^{\lambda t_i}$, and $\sigma$ is the (measurment)
+noise.
 
+We are interested in finding the posterior distribution
+$P(\lambda | Z) \propto P(Z | \lambda) P(\lambda)$, and see how an
+error estimate converges as the discretization
+$\Delta t \rightarrow 0$ and the amount of observations
+$N_\text{data} \rightarrow \infty$.
 
-\item Follow the checklist on the ``simple'' model. Assume no discretization.
-\item Now, assume $\Delta t$ discretization, where
-  $\lambda_{\Delta t} \rightarrow \lambda$ as $\Delta t \rightarrow 0$.
-\item What is the cost to obtain \verb;error < TOL;?
-  \begin{itemize}
-  \item True $\lambda = -2.5$. If we use the same observation, but
-    exlude increasingly many data points. The error increase as in the figure below.
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.5\textwidth]{CODE/errorplot.png}
-      \caption{error (blue), polyfit (red), $1/\sqrt(N_{\text{data}}$) (green)}
-    \end{figure}
-
-     \begin{figure}[H]
-      \centering
-      \includegraphics[width=0.8\textwidth]{CODE/mcmcoutput.png}
-      \caption{output from the MCMC algo at the smallest $\Delta_t$}
-    \end{figure}
-  \end{itemize}
-
-\end{todolist}
-
-Additional notes:
+\section{Some obsevations}
 \begin{itemize}
-\item In the previous chapters in the book, they never really talk about data. Look into that.
+\item What matters is the \# data points, which can be achived either
+  by $\Delta t \rightarrow 0$ or $N_\text{data} \rightarrow \infty$.
+
+\item Reasoning is that the problem is similar to a linear regression
+  problem. By the fact that each observation,
+  $z_i = y_i + \varepsilon_ i$, is i.i.d.(?)
 \end{itemize}
+
+
+
 
 
 
